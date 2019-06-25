@@ -34,3 +34,13 @@ def init():
         asteroids.add(Asteroid((random.randint(50, width-50), #X-Axis
                                 random.randint(50, height-50)), #Y-Axis
                                 random.randint(15, 60))) #Size
+
+def win():
+    font = pygame.font.SysFont(None, 70)
+    text = font.render("You have Escaped", True, (255, 0, 0))
+    text_rect = text.get_rect()
+    text_rect.center = (width/2, height/2)
+    while True:
+        screen.fill(color)
+        screen.blit(text, text_rect)
+        pygame.display.flip()
