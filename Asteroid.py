@@ -1,7 +1,7 @@
 import pygame, random
 
 class Asteroid(pygame.sprite.Sprite):
-    def __ini__(self, pos, size):
+    def __init__(self, pos, size):
         super().__init__()
         self.image = pygame.image.load("Asteroid")
         self.image = pygame.transform.smoothscale(self.image, (size, size))
@@ -22,4 +22,3 @@ class Asteroid(pygame.sprite.Sprite):
             self.speed[1] *= -1
             self.image = pygame.transform.flip(self.image, False, True)
             self.rect.move_ip(0, self.speed[1])
-
