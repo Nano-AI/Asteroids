@@ -8,7 +8,7 @@ screen_info = pygame.display.Info()
 
 size = (width, height) = (int(screen_info.current_w * 0.5), int(screen_info.current_h * 0.5))
 
-screen = pygame.display.set_model(size)
+screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 color = (0,0,0)
 
@@ -44,3 +44,50 @@ def win():
         screen.fill(color)
         screen.blit(text, text_rect)
         pygame.display.flip()
+
+def main():
+    global level, player, asteroids, numLevels
+    while level <= numLevel:
+        clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    player.speed[0] = 10
+                if event.key == pygame.K_LEFT:
+                    player.speed[0] = -10
+                if event.key == pygame.K_UP:
+                    player.speed[1] = 10
+                if event.key == pygame.K_DOWN:
+                    player.speed[1] = -10
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    player.speed[0] = 0
+                if event.key == pygame.K_LEFT:
+                    player.speed[0] = 0
+                if event.key == pygame.K_UP:
+                    player.speed[1] = 0
+                if event.key == pygame.K_DOWN:
+                    player.speed[1] = 0
+
+        screen.fill(color)
+        player.update()
+        asteroids.update()
+        gets_hit = pygame.sprite.spritecollide(player, asteroids)
+        asteroids.draw(screen)
+        screen.blit(player.image, player.rect)
+        pygame.display.flip()
+
+        if player.check_reset(width):
+            if level == numLevel:
+                break
+            else:
+                level += 1
+                init()
+        elif gets_hit:
+            player.reset((levelData['PlayerX'], levelData['PlayerY']))
+    win()
+
+if __name__ == '__main__':
+    main()
